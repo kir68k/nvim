@@ -101,6 +101,7 @@ return require('packer').startup(function(use)
     use "windwp/nvim-autopairs"
     use "brenoprata10/nvim-highlight-colors"
     use "lukas-reineke/indent-blankline.nvim"
+    use "kir68k/autumnull"
     use "loctvl842/monokai-pro.nvim"
     require("plugins.visual")
 
