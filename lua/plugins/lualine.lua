@@ -1,7 +1,7 @@
 require("lualine").setup {
     options = {
         icons_enabled = true,
-        theme = "monokai-pro",
+        theme = "autumnull",
         section_separators = '',
         component_separators = '',
     },

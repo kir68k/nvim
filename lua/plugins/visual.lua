@@ -4,19 +4,11 @@ require("indent_blankline").setup {
     show_current_context = true,
     show_current_context_start = true,
 }
---[[
-require("monokai-pro").setup({
-    terminal_colors = true,
-    devicons = true,
-    filter = "pro",
-})
-]]
 require("autumnull").setup {}
 
 
 -- $ Variables
-vim.cmd.colorscheme     "autumnull"
---vim.cmd.colorscheme     "monokai-pro"        -- This must be called AFTER `setup`.
+vim.cmd.colorscheme     "autumnull"         -- This must be called AFTER `setup`.
 vim.cmd.termguicolors   = true              -- Enable true colros
 vim.cmd.showtabline     = 2                 -- Show the tabline
 vim.cmd.conceallevel    = 0                 -- Do not hide quotes in Markdown files
