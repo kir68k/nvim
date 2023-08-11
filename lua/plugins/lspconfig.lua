@@ -10,13 +10,14 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 local servers = {
     "bashls",
-    "clangd",
-    "hls",
+    --"clangd",
+    --"hls",
     "jsonls",
     "lua_ls",
     "marksman",
     "rescriptls",
-    "nil_ls",
+    "rust_analyzer",
+    --"nil_ls",
     "ltex",
 }
 

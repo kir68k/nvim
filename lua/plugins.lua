@@ -34,7 +34,15 @@ return require('packer').startup(function(use)
     use "williamboman/mason-lspconfig.nvim"
     use "neovim/nvim-lspconfig"
 
-    -- require("plugins.lspconfig")
+    require("plugins.lspconfig")
+
+    -- >> Telescope
+    use({
+        "nvim-telescope/telescope.nvim",
+        requires = {
+            "nvim-lua/plenary.nvim"
+        }
+    })
 
     -- >> Autocompletion
     use({
@@ -60,7 +68,7 @@ return require('packer').startup(function(use)
     -- >> Signature help
     use "ray-x/lsp_signature.nvim"
 
-    -- Snippets
+    -- >> Snippets
     use {
         "L3MON4D3/LuaSnip",
         config = function() require('plugins.snippets') end,
@@ -77,7 +85,7 @@ return require('packer').startup(function(use)
         ft = { "tex", "markdown" },
     }
 
-    -- Theming
+    -- >> Theming
     use({
         "nvim-lualine/lualine.nvim",
         requires = {"nvim-tree/nvim-web-devicons", opt = true},
@@ -101,7 +109,8 @@ return require('packer').startup(function(use)
     use "windwp/nvim-autopairs"
     use "brenoprata10/nvim-highlight-colors"
     use "lukas-reineke/indent-blankline.nvim"
-    use "kir68k/autumnull"
+    --use "kir68k/autumnull"
+    use "~/associated/autumnull"
     require("plugins.visual")
 
     use {
