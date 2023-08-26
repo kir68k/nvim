@@ -19,6 +19,7 @@ local servers = {
     "rust_analyzer",
     --"nil_ls",
     "ltex",
+    "texlab",
 }
 
 mason_lspconfig.setup({

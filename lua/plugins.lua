@@ -54,6 +54,7 @@ return require('packer').startup(function(use)
             "hrsh7th/cmp-nvim-lua",
             "hrsh7th/cmp-cmdline",
             "saadparwaiz1/cmp_luasnip",
+            "kdheepak/cmp-latex-symbols",
         },
         config = function() require('plugins.cmp') end,
     })
@@ -85,6 +86,27 @@ return require('packer').startup(function(use)
         ft = { "tex", "markdown" },
     }
 
+    -- >> TeX
+    use ({
+        "barreiroleo/ltex-extra.nvim",
+        requires = {
+            "neovim/nvim-lspconfig",
+            "latex-lsp/texlab",
+            "lervag/vimtex",
+        },
+        ft = { "tex", "markdown" },
+    })
+    use "latex-lsp/texlab"
+    use ({
+        "frabjous/knap",
+        config = function() require('plugins.latex') end,
+    })
+    --use "xuhdev/vim-latex-live-preview"
+    --use ({
+    --    "xuhdev/vim-latex-live-preview",
+    --    config = function() require('plugins.latex') end,
+    --})
+
     -- >> Theming
     use({
         "nvim-lualine/lualine.nvim",
@@ -111,6 +133,8 @@ return require('packer').startup(function(use)
     use "lukas-reineke/indent-blankline.nvim"
     --use "kir68k/autumnull"
     use "~/associated/autumnull"
+
+    use 'kyazdani42/nvim-web-devicons'
     require("plugins.visual")
 
     use {

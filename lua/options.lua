@@ -8,6 +8,7 @@ vim.opt.tabstop         = 4
 vim.opt.shiftwidth      = 4
 vim.opt.expandtab       = true
 vim.bo.softtabstop      = 4
+vim.opt.clipboard:append("unnamedplus") -- Enables yanking to system clipboard
 
 -- >> General [visual] behavior
 vim.o.hlsearch          = false     -- Disable last search results
