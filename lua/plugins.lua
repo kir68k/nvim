@@ -1,53 +1,56 @@
 -- > Definitions
 local fn = vim.fn
 local cmd = vim.cmd
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 -- > Plugin manager configuring
--- >> Bootstrap packer.nvim, our plugin manager
-local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
-local packer_bootstrap
-if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+-- >> Bootstrap lazy.nvim, our plugin manager
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
 end
-
--- >> Load packer.nvim
-cmd([[packadd packer.nvim]])
-
--- >> Regenerate loader file every time `plugins.lua` is updated
-cmd([[
-    augroup packer_user_config
-        autocmd!
-        autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-    augroup end
-]])
+vim.opt.rtp:prepend(lazypath)
+vim.g.mapleader = " "
 
 -- > Plugin loading
-return require('packer').startup(function(use)
-    -- $ packer.nvim self-updating
-    use({'wbthomason/packer.nvim', opt = true})
-
+require("lazy").setup({
+    {
+        "kir68k/autumnull",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            -- load the colorscheme here
+            vim.cmd([[colorscheme autumnull]])
+        end,
+    },
     -- >> LSP management with mason.nvim & nvim-lspconfig
-    use {
-        "williamboman/mason.nvim",
-        run = ":MasonUpdate",
-    }
-    use "williamboman/mason-lspconfig.nvim"
-    use "neovim/nvim-lspconfig"
-
-    require("plugins.lspconfig")
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+        },
+        config = function() require("plugins.lspconfig") end,
+    },
 
     -- >> Telescope
-    use({
+    {
         "nvim-telescope/telescope.nvim",
-        requires = {
+        dependencies = {
             "nvim-lua/plenary.nvim"
         }
-    })
+    },
 
     -- >> Autocompletion
-    use({
+    {
         "hrsh7th/nvim-cmp",
-        requires = {
+        dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
@@ -57,103 +60,106 @@ return require('packer').startup(function(use)
             "kdheepak/cmp-latex-symbols",
         },
         config = function() require('plugins.cmp') end,
-    })
+    },
 
     -- >> Treesitter
-    use({
+    {
         'nvim-treesitter/nvim-treesitter',
         config = function() require('plugins.treesitter') end,
-        run = ':TSUpdate',
-    })
+        build = ':TSUpdate',
+    },
 
     -- >> Signature help
-    use "ray-x/lsp_signature.nvim"
+    "ray-x/lsp_signature.nvim",
 
     -- >> Snippets
-    use {
+    {
         "L3MON4D3/LuaSnip",
         config = function() require('plugins.snippets') end,
-    }
-    use {
+    },
+    {
         "iurimateus/luasnip-latex-snippets.nvim",
-        requires = {
-            "L3M0N4D3/LuaSnip",
+        dependencies = {
+            "L3MON4D3/LuaSnip",
             "lervag/vimtex"
         },
         config = function() require('luasnip-latex-snippets').setup({
             use_treesitter = true
         }) end,
         ft = { "tex", "markdown" },
-    }
+    },
 
     -- >> TeX
-    use ({
+    {
         "barreiroleo/ltex-extra.nvim",
-        requires = {
+        dependencies = {
             "neovim/nvim-lspconfig",
             "latex-lsp/texlab",
             "lervag/vimtex",
         },
         ft = { "tex", "markdown" },
-    })
-    use "latex-lsp/texlab"
-    use ({
+    },
+    "latex-lsp/texlab",
+    {
         "frabjous/knap",
         config = function() require('plugins.latex') end,
-    })
-    --use "xuhdev/vim-latex-live-preview"
-    --use ({
+    },
+    --"xuhdev/vim-latex-live-preview",
+    --{
     --    "xuhdev/vim-latex-live-preview",
     --    config = function() require('plugins.latex') end,
-    --})
+    --},
 
     -- >> Theming
-    use({
+    {
         "nvim-lualine/lualine.nvim",
-        requires = {"nvim-tree/nvim-web-devicons", opt = true},
+        dependencies = {"nvim-tree/nvim-web-devicons", opt = true},
         config = function() require('plugins.lualine') end,
-    })
-    use({
+    },
+    {
         "utilyre/barbecue.nvim",
         tag = "*",
-        requires = {
+        dependencies = {
             "SmiteshP/nvim-navic",
             {"nvim-tree/nvim-web-devicons", opt = true},
         },
-        after = "nvim-web-devicons",
         config = function() require('barbecue').setup() end,
-    })
-    use({
+    },
+    {
         "loctvl842/breadcrumb.nvim",
-        requires = {"nvim-tree/nvim-web-devicons"},
-    })
+        dependencies = {"nvim-tree/nvim-web-devicons"},
+    },
 
-    use "windwp/nvim-autopairs"
-    use "brenoprata10/nvim-highlight-colors"
-    use "lukas-reineke/indent-blankline.nvim"
-    --use "kir68k/autumnull"
-    use "~/associated/autumnull"
+    "windwp/nvim-autopairs",
+    {
+        "brenoprata10/nvim-highlight-colors",
+        config = function() require("plugins.visual") end,
+    },
 
-    use 'kyazdani42/nvim-web-devicons'
-    require("plugins.visual")
-
-    use {
+    "lukas-reineke/indent-blankline.nvim",
+    {
+        'nvim-tree/nvim-web-devicons',
+        dependencies = {
+            'utilyre/barbecue.nvim',
+        }
+    },
+    {
         "nvim-tree/nvim-tree.lua",
-        requires = {"nvim-tree/nvim-web-devicons"},
+        dependencies = {"nvim-tree/nvim-web-devicons"},
         config = function() require("nvim-tree").setup() end,
-    }
+    },
 
     -- .elv support for Elven/Elvish
-    use "dmix/elvish.vim"
+    "dmix/elvish.vim",
     -- .yuck support for EWW
-    use "elkowar/yuck.vim"
+    "elkowar/yuck.vim",
     -- Caddyfile support
-    use "isobit/vim-caddyfile"
+    "isobit/vim-caddyfile",
 
     -- Markdown previews using a browser + localhost
     -- install method without the use of npm/yarn
-    use({
+    {
         "iamcco/markdown-preview.nvim",
-        run = function() vim.fn["mkdp#util#install"]() end,
-    })
-end)
+        build = function() vim.fn["mkdp#util#install"]() end,
+    }
+})
