@@ -104,11 +104,6 @@ require("lazy").setup({
         "frabjous/knap",
         config = function() require('plugins.latex') end,
     },
-    --"xuhdev/vim-latex-live-preview",
-    --{
-    --    "xuhdev/vim-latex-live-preview",
-    --    config = function() require('plugins.latex') end,
-    --},
 
     -- >> Theming
     {
@@ -136,7 +131,11 @@ require("lazy").setup({
         config = function() require("plugins.visual") end,
     },
 
-    "lukas-reineke/indent-blankline.nvim",
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl", opts = {}
+    },
+
     {
         'nvim-tree/nvim-web-devicons',
         dependencies = {
@@ -148,6 +147,9 @@ require("lazy").setup({
         dependencies = {"nvim-tree/nvim-web-devicons"},
         config = function() require("nvim-tree").setup() end,
     },
+
+    -- Zoomer plugin
+    "andweeb/presence.nvim",
 
     -- .elv support for Elven/Elvish
     "dmix/elvish.vim",

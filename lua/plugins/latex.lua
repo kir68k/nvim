@@ -21,7 +21,9 @@ kmap({ 'n', 'v', 'i' },'<F8>', function() require("knap").forward_jump() end)
 -- KNAP configuration
 local knap_conf = {
     texoutputext = "pdf",
-    textopdf = "latexmk -synctex=1 -halt-on-error -interaction=batchmode -pdflatex=lualatex -pdf %srcfile%"
+    textopdf = "latexmk -synctex=1 -halt-on-error -interaction=batchmode -pdflatex=lualatex -pdf %srcfile%",
+    -- Speed setting
+    delay = 100
 }
 
 vim.g.knap_settings = knap_conf

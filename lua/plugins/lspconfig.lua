@@ -11,7 +11,8 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local servers = {
     "bashls",
     --"clangd",
-    --"hls",
+    "eslint",
+    "hls",
     "jsonls",
     "lua_ls",
     "marksman",
@@ -34,3 +35,15 @@ mason_lspconfig.setup_handlers({
         }
     end
 })
+
+lspconfig.eslint.setup({
+    on_attach = function(client, bufnr)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "EslintFixAll",
+        })
+    end,
+})
+
+vim.o.updatetime = 250
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

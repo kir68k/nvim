@@ -1,11 +1,33 @@
 require("nvim-highlight-colors").setup {}
 require("nvim-autopairs").setup {}
-require("indent_blankline").setup {
-    show_current_context = true,
-    show_current_context_start = true,
-}
 require("autumnull").setup {}
 
+local c = require('autumnull.palette')
+local hl = vim.api.nvim_set_hl
+
+local highlight = {
+    "RainbowRed",
+    "RainbowYellow",
+    "RainbowBlue",
+    "RainbowOrange",
+    "RainbowGreen",
+    "RainbowViolet",
+    "RainbowCyan",
+}
+
+local ibl_hooks = require "ibl.hooks"
+
+ibl_hooks.register(ibl_hooks.type.HIGHLIGHT_SETUP, function()
+    hl(0, "RainbowRed",     { fg = c.red    })
+    hl(0, "RainbowYellow",  { fg = c.yellow })
+    hl(0, "RainbowBlue",    { fg = c.blue   })
+    hl(0, "RainbowOrange",  { fg = c.orange })
+    hl(0, "RainbowGreen",   { fg = c.green  })
+    hl(0, "RainbowViolet",  { fg = c.purple })
+    hl(0, "RainbowCyan",    { fg = c.cyan   })
+end)
+
+require("ibl").setup { indent = { highlight = highlight } }
 
 -- $ Variables
 vim.cmd.colorscheme     "autumnull"         -- This must be called AFTER `setup`.

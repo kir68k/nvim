@@ -39,7 +39,7 @@ vim.g.loaded_ruby_provider = 0
 
 -- >> Disable inline error messages
 vim.diagnostic.config {
-    virtual_text = false,
-    underline = false,
+    virtual_text = true,
+    underline = true,
     signs = true,
 }
