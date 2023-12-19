@@ -21,6 +21,7 @@ local servers = {
     --"nil_ls",
     "ltex",
     "texlab",
+    "tsserver",
 }
 
 mason_lspconfig.setup({
